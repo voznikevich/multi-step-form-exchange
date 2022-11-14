@@ -10,8 +10,6 @@ import {
 import CurrencyRow from "../currencyRow";
 
 export const Amount = ({ formData, setForm, navigation }) => {
-    // const { firstName, lastName, nickName } = formData;
-    const { firstAmount, firstCurrency, secondAmount, secondCurrency } = formData;
     const usersCollectionRef = collection(db, "users");
     const [select1, setSelect1] = useState([])
     const [select2, setSelect2] = useState([])
@@ -23,7 +21,7 @@ export const Amount = ({ formData, setForm, navigation }) => {
     const [amountInFromCurrency, setAmountInFromCurrency] = useState(true);
 
 
-    let { toAmount, fromAmount } = formData;
+    let { toAmount, fromAmount, } = formData;
 
     if (amountInFromCurrency) {
         fromAmount = amount;
@@ -79,13 +77,25 @@ export const Amount = ({ formData, setForm, navigation }) => {
         setForm({
             target: {
                 name: 'fromAmount', // form element
-                value: amount // the data/url
+                value: e.target.value // the data/url
             }
         })
         setForm({
             target: {
                 name: 'toAmount', // form element
-                value: amount * exchangeRate // the data/url
+                value: e.target.value * exchangeRate // the data/url
+            }
+        })
+        setForm({
+            target: {
+                name: 'fromCurrency', // form element
+                value: fromCurrency // the data/url
+            }
+        })
+        setForm({
+            target: {
+                name: 'toCurrency', // form element
+                value: toCurrency // the data/url
             }
         })
     }
@@ -96,13 +106,13 @@ export const Amount = ({ formData, setForm, navigation }) => {
         setForm({
             target: {
                 name: 'toAmount', // form element
-                value: amount // the data/url
+                value: e.target.value // the data/url
             }
         })
         setForm({
             target: {
                 name: 'fromAmount', // form element
-                value: amount / exchangeRate // the data/url
+                value: e.target.value / exchangeRate // the data/url
             }
         })
     }
@@ -116,9 +126,14 @@ export const Amount = ({ formData, setForm, navigation }) => {
                     selectedCurrency={fromCurrency}
                     onchangeCurrency={(e) => {
                         setFromCurrency(e.target.value);
+                        setForm({
+                            target: {
+                                name: 'fromCurrency', // form element
+                                value: e.target.value // the data/url
+                            }
+                        })
                     }}
                     amount={fromAmount}
-
                     onchangeAmount={handleFromAmount}
                 />
                 <h1> = </h1>
@@ -127,6 +142,12 @@ export const Amount = ({ formData, setForm, navigation }) => {
                     selectedCurrency={toCurrency}
                     onchangeCurrency={(e) => {
                         setToCurrency(e.target.value);
+                        setForm({
+                            target: {
+                                name: 'toCurrency', // form element
+                                value: e.target.value // the data/url
+                            }
+                        })
                     }}
                     amount={toAmount}
                     onchangeAmount={handleToAmount}

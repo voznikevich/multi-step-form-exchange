@@ -9,7 +9,9 @@ import {Amount} from "./stepForm/Amount";
 
 const defaultData = {
     fromAmount: "",
+    fromCurrency: "",
     toAmount: "",
+    toCurrency: "",
     firstName: "",
     lastName: "",
     nickName: "",

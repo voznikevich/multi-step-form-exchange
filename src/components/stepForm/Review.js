@@ -16,6 +16,8 @@ export const Review = ({ formData, navigation }) => {
     const {
         toAmount,
         fromAmount,
+        fromCurrency,
+        toCurrency,
         firstName,
         lastName,
         nickName,
@@ -26,6 +28,7 @@ export const Review = ({ formData, navigation }) => {
         phone,
         email,
     } = formData;
+    console.log(formData);
 
     return (
         <Container maxWidth='sm'>
@@ -47,7 +50,9 @@ export const Review = ({ formData, navigation }) => {
             ]}/>
             <RenderAccordion summary="Amount" go={go} details={[
                 { 'fromAmount': fromAmount },
+                { 'fromCurrency': fromCurrency },
                 { 'toAmount': toAmount },
+                { 'toCurrency': toCurrency },
             ]}/>
             <Button
                 color="primary"
