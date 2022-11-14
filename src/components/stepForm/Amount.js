@@ -10,7 +10,7 @@ import {
 import CurrencyRow from "../currencyRow";
 
 export const Amount = ({ formData, setForm, navigation }) => {
-  // const { firstName, lastName, nickName } = formData;
+    // const { firstName, lastName, nickName } = formData;
     const { firstAmount, firstCurrency, secondAmount, secondCurrency } = formData;
     const usersCollectionRef = collection(db, "users");
     const [select1, setSelect1] = useState([])
@@ -23,9 +23,8 @@ export const Amount = ({ formData, setForm, navigation }) => {
     const [amountInFromCurrency, setAmountInFromCurrency] = useState(true);
 
 
-    let { toAmount, toCurrency, fromAmount, fromCurrency } = formData;
+    let { toAmount, fromAmount } = formData;
 
-    // let toAmount, fromAmount;
     if (amountInFromCurrency) {
         fromAmount = amount;
         toAmount = amount * exchangeRate;
@@ -77,56 +76,71 @@ export const Amount = ({ formData, setForm, navigation }) => {
     function handleFromAmount(e) {
         setAmount(e.target.value);
         setAmountInFromCurrency(true);
+        setForm({
+            target: {
+                name: 'fromAmount', // form element
+                value: amount // the data/url
+            }
+        })
+        setForm({
+            target: {
+                name: 'toAmount', // form element
+                value: amount * exchangeRate // the data/url
+            }
+        })
     }
 
     function handleToAmount(e) {
         setAmount(e.target.value);
         setAmountInFromCurrency(false);
+        setForm({
+            target: {
+                name: 'toAmount', // form element
+                value: amount // the data/url
+            }
+        })
+        setForm({
+            target: {
+                name: 'fromAmount', // form element
+                value: amount / exchangeRate // the data/url
+            }
+        })
     }
 
-    console.log(fromAmount);
-    console.log(fromCurrency);
-    console.log(toAmount);
-    console.log(toCurrency);
+    return (
+        <Container maxWidth="xs">
+            <div className="App">
+                <h1>Currency Converter</h1>
+                <CurrencyRow
+                    currencyOptions={select1}
+                    selectedCurrency={fromCurrency}
+                    onchangeCurrency={(e) => {
+                        setFromCurrency(e.target.value);
+                    }}
+                    amount={fromAmount}
 
-
-
-
-
-  return (
-    <Container maxWidth="xs">
-        <div className="App">
-            <h1>Currency Converter</h1>
-            <CurrencyRow
-                currencyOptions={select1}
-                selectedCurrency={fromCurrency}
-                onchangeCurrency={(e) => {
-                    setFromCurrency(e.target.value);
-                }}
-                amount={fromAmount}
-
-                onchangeAmount={handleFromAmount}
-            />
-            <h1> = </h1>
-            <CurrencyRow
-                currencyOptions={select2}
-                selectedCurrency={toCurrency}
-                onchangeCurrency={(e) => {
-                    setToCurrency(e.target.value);
-                }}
-                amount={toAmount}
-                onchangeAmount={handleToAmount}
-            />
-        </div>
-      <Button
-        variant="contained"
-        fullWidth
-        color="primary"
-        style={{ marginTop: "1rem" }}
-        onClick={() => navigation.next()}
-      >
-        Next
-      </Button>
-    </Container>
-  );
+                    onchangeAmount={handleFromAmount}
+                />
+                <h1> = </h1>
+                <CurrencyRow
+                    currencyOptions={select2}
+                    selectedCurrency={toCurrency}
+                    onchangeCurrency={(e) => {
+                        setToCurrency(e.target.value);
+                    }}
+                    amount={toAmount}
+                    onchangeAmount={handleToAmount}
+                />
+            </div>
+            <Button
+                variant="contained"
+                fullWidth
+                color="primary"
+                style={{ marginTop: "1rem" }}
+                onClick={() => navigation.next()}
+            >
+                Next
+            </Button>
+        </Container>
+    );
 };
